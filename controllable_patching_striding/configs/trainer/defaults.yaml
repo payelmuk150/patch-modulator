@@ -1,0 +1,15 @@
+_target_: controllable_patching_striding.trainer.Trainer
+max_epoch: 50
+val_frequency: 2
+rollout_val_frequency: 5
+short_validation_length: 20
+max_rollout_steps: 20
+num_time_intervals: 5
+enable_amp: False
+loss_fn: 
+  _target_: the_well.benchmark.metrics.MSE
+formatter: channels_last_default
+prediction_type: delta
+grad_acc_steps: 1
+image_validation: True
+video_validation: True

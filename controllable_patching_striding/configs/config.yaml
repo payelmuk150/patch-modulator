@@ -1,0 +1,15 @@
+defaults:
+  - _self_
+  - trainer: defaults
+  - optimizer: adam
+  - lr_scheduler: cosine_with_warmup
+  - model: isotropic_model
+  - data: all_2d
+  - experiment: no_overrides
+  - server: ???
+  - distribution: local
+  - logger: wandb
+  - checkpoint: defaults
+data_workers: 14
+name: default_name
+automatic_setup: True

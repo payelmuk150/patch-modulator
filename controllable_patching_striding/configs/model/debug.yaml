@@ -1,0 +1,4 @@
+defaults:
+  - isotropic_model
+hidden_dim: 96
+processor_blocks: 2

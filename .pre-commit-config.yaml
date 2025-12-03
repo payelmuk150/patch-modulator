@@ -1,0 +1,14 @@
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: "v0.4.4"
+  hooks:
+    # Run the linter.
+    - id: ruff
+      args: [--exclude, "*.ipynb"]
+
+- repo: https://github.com/pycqa/isort
+  rev: "5.13.2"
+  hooks:
+    - id: isort
+      additional_dependencies: [toml]

@@ -1,0 +1,18 @@
+defaults:
+  - encoder: vstride_encoder
+  - decoder: vstride_decoder
+  - processor: space_time_split
+_target_: controllable_patching_striding.models.IsotropicModel
+hidden_dim: 768
+processor_blocks: 12
+drop_path: .05
+groups: 12
+max_d: 3
+static_axes: True
+weight_tied_axes: False
+causal_in_time: False
+oned_only: False
+twod_only: True
+threed_only: False
+infer: [4, 4]
+jitter_patches: True

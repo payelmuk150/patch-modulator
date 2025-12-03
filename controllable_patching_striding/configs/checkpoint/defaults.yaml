@@ -1,0 +1,4 @@
+_target_: controllable_patching_striding.trainer.checkpoints.CheckPointer
+save_dir: checkpoints/${name}
+save_best: True
+checkpoint_frequency: 10

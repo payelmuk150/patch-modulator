@@ -1,0 +1,35 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    env:
+      PY_COLORS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+      - name: Set up authentication for private repo
+        run: |
+          git config --global url."https://${{ secrets.POLYMATHIC_REPO_ACCESS }}@github.com/".insteadOf "https://github.com/"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu ".[test]"
+      - name: Run linter
+        run: |
+          ruff check temporary_mppx_name tests --exclude "*.ipynb"
+          isort temporary_mppx_name tests --check --diff --color
+      - name: Run tests
+        run: python -m pytest tests

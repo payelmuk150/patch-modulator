@@ -1,0 +1,3 @@
+_partial_: true
+_target_: controllable_patching_striding.models.shared_utils.mlps.MLP
+exp_factor: 4.0

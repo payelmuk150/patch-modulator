@@ -1,0 +1,9 @@
+defaults:
+  - defaults
+
+max_epoch: 1
+val_frequency: 1
+image_validation: False
+video_validation: False
+loss_fn: 
+  _target_: the_well.benchmark.metrics.MSE

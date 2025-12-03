@@ -1,0 +1,3 @@
+_partial_: true
+_target_: controllable_patching_striding.models.spatial_blocks.axial_attention.AxialAttentionBlock
+num_heads: 12

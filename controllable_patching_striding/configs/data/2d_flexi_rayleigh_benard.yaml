@@ -1,0 +1,13 @@
+
+well_base_path: /mnt/gpuxl/polymathic/the_well/datasets/ # Usually overrided by server
+wandb_data_name: "well_2d_only"
+module_parameters:
+  _target_: data.MixedWellDataModule
+  batch_size: 8
+  n_steps_input: 6
+  n_steps_output: 1
+  max_samples: 2000 # Time in fake epochs
+  well_dataset_info: 
+    rayleigh_benard:
+      include_filters: []
+      exclude_filters: []

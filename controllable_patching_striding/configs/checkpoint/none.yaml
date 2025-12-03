@@ -1,0 +1,2 @@
+_target_: controllable_patching_striding.trainer.checkpoints.DummyCheckPointer
+save_dir: checkpoints/${name}

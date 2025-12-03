@@ -1,0 +1,6 @@
+defaults:
+  - space_mixing: axial_spatial_attention
+  - time_mixing: axial_time_attention
+  - channel_mixing: identity
+_partial_: true
+_target_: controllable_patching_striding.models.spatiotemporal_blocks.space_time_split.SpaceTimeSplitBlock
