@@ -18,8 +18,8 @@ export CUDA_LAUNCH_BLOCKING=1
 
 # module load python cuda cudnn gcc hdf5
 # Activate the virtual environment with all the dependencies
-source /mnt/home/pmukhopadhyay/projects/multiple_physics_pretraining/myenv3.10/bin/activate
-export PYTHONPATH=$PYTHONPATH:/mnt/home/pmukhopadhyay/projects/adaptive_compute/controllable_patching_striding/
+source /mnt/home/pmukhopadhyay/projects/multiple_physics_pretraining/myenv3.10/bin/activate # Replace with your own environment
+export PYTHONPATH=$PYTHONPATH:/mnt/home/pmukhopadhyay/projects/patch-modulator/controllable_patching_striding/ # Replace with your own path
 
 # Launch the training script
 srun python `which torchrun` \
@@ -28,7 +28,7 @@ srun python `which torchrun` \
 	--rdzv_id=$SLURM_JOB_ID \
 		--rdzv_backend=c10d \
 		--rdzv_endpoint=$SLURMD_NODENAME:29500 \
-	train.py distribution=fsdp server=gpuxl optimizer.lr=0.0001 logger.wandb_project_name="FLEXIBLE_PATCHING_EXPERIMENTS" \
+	controllable_patching_striding/train.py distribution=fsdp server=gpuxl optimizer.lr=0.0001 logger.wandb_project_name="FLEXIBLE_PATCHING_EXPERIMENTS" \
 			data.module_parameters.batch_size=2 data.module_parameters.max_samples=100 model.hidden_dim=768 model.groups=12 model.processor_blocks=12 model.drop_path=.1 \
 			model/processor/space_mixing=full_spatial_attention model.processor.space_mixing.num_heads=12 model.processor.time_mixing.num_heads=12 \
 			model.causal_in_time=True model.jitter_patches=False \

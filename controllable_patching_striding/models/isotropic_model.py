@@ -214,11 +214,11 @@ class IsotropicModel(nn.Module):
             else:
                 # We don't need to randomize the kernel size for inference. Only during training. In inference, we use the fixed kernel size.
                 # Except if one wants to use alternating kernel sizes during rollout.
-                #ks_random = self.infer
+                ks_random = self.infer
 
                 # If you want to use alternating kernel sizes during rollout, use the following. 
                 # TODO: Add this to the config.
-                ks_random = choose_kernel_size_alternating(self.embed.kernel_scales_seq, seed=seed)
+                #ks_random = choose_kernel_size_alternating(self.embed.kernel_scales_seq, seed=seed)
 
                 # Optionally, if you want to use random kernel sizes during rollout, use the following. 
                 # TODO: Add this to the config.
