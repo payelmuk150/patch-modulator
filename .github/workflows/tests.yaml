@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,7 +30,7 @@ jobs:
           pip install --extra-index-url https://download.pytorch.org/whl/cpu ".[test]"
       - name: Run linter
         run: |
-          ruff check temporary_mppx_name tests --exclude "*.ipynb"
-          isort temporary_mppx_name tests --check --diff --color
+          ruff check controllable_patching_striding tests --exclude "*.ipynb"
+          isort controllable_patching_striding tests --check --diff --color
       - name: Run tests
         run: python -m pytest tests
