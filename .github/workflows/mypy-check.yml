@@ -28,7 +28,7 @@ jobs:
       - name: Run MyPy
         id: mypy
         run: |
-          mypy temporary_mppx_name tests --install-types --non-interactive &> mypy_output.txt || true
+          mypy controllable_patching_striding tests --install-types --non-interactive &> mypy_output.txt || true
       - name: Read MyPy Output
         id: read-mypy
         run: |

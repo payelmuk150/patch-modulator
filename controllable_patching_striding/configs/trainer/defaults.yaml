@@ -10,6 +10,7 @@ loss_fn:
   _target_: the_well.benchmark.metrics.MSE
 formatter: channels_last_default
 prediction_type: delta
+infer_type: fixed
 grad_acc_steps: 1
 image_validation: True
 video_validation: True

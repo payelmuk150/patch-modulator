@@ -107,7 +107,6 @@ def configure_experiment(
     experiment_folder = cfg.folder_override  # Default is ""
     checkpoint_file = cfg.checkpoint_override  # Default is ""
     config_file = cfg.config_override  # Default is ""
-    validation_mode = cfg.validation_mode
 
     if len(checkpoint_file) > 0:
         raise NotImplementedError("Checkpoint override not yet implemented.")
@@ -121,19 +120,11 @@ def configure_experiment(
             prev_runs = []
         if is_distributed:
             torch.distributed.barrier()
-        """if (validation_mode or cfg.auto_resume) and len(prev_runs) > 0:
+        if cfg.auto_resume and len(prev_runs) > 0:
             experiment_folder = osp.join(base_experiment_folder, prev_runs[-1])
-        elif validation_mode:
-            raise ValueError(
-                f"Validation mode enabled but no previous runs found in {base_experiment_folder}."
-            )"""
-        #else:
-        experiment_folder = osp.join(base_experiment_folder, str(len(prev_runs)))
-        # This is Shear patch16 exp folder
-        #experiment_folder = osp.join(base_experiment_folder, str(91))
+        else:
+            experiment_folder = osp.join(base_experiment_folder, str(len(prev_runs)))
 
-        # This is Shear patch4 exp folder
-        #experiment_folder = osp.join(base_experiment_folder, str(89))
         logger.info(
             f"No override experiment folder detected. Using default experiment folder {experiment_folder}"
         )

@@ -1,5 +1,4 @@
 import itertools
-import random
 from typing import Literal, Tuple
 
 import numpy as np
@@ -8,7 +7,7 @@ import torch.nn.functional as F
 from einops import rearrange
 from functorch import vmap
 from torch import Tensor
-import torch
+
 
 def choose_kernel_size_random(kernel_scales_seq, probabilities=None, seed=None):
     generator = torch.Generator()

@@ -1,5 +1,6 @@
 import gc
 import logging
+import os
 import time
 from concurrent.futures import Future
 from contextlib import nullcontext
@@ -8,27 +9,27 @@ from subprocess import CalledProcessError
 from typing import Any, Callable, Literal, Optional
 
 import numpy as np
-import os
 import torch
 import torch.distributed as dist
 import wandb
-from the_well.data.datamodule import AbstractDataModule
-from the_well.data.datasets import WellDataset
-from the_well.data.utils import flatten_field_names
 from the_well.benchmark.metrics import (
     long_time_metrics,
+    make_video,
     plot_all_time_metrics,
     validation_metric_suite,
     validation_plots,
-    make_video
 )
+from the_well.data.datamodule import AbstractDataModule
+from the_well.data.datasets import WellDataset
+from the_well.data.utils import flatten_field_names
 from torch.amp.grad_scaler import GradScaler
 from torch.distributed.fsdp.sharded_grad_scaler import ShardedGradScaler
 from torch.utils.data import DataLoader
 
-from controllable_patching_striding.data.well_to_multi_transformer import AbstractFormatter
+from controllable_patching_striding.data.well_to_multi_transformer import (
+    AbstractFormatter,
+)
 from controllable_patching_striding.trainer.checkpoints import BaseCheckPointer
-#from .metrics_v1 import make_video
 
 logger = logging.getLogger(__name__)
 
@@ -222,6 +223,7 @@ class Trainer:
         wandb_logging: bool = True,
         start_epoch: int = 1,
         start_val_loss: Optional[float] = None,
+        infer_type: str = 'fixed',
     ):
         """
         Class in charge of the training loop. It performs train, validation and test.
@@ -332,6 +334,7 @@ class Trainer:
         self.rank = rank
         self.dset_metadata = self.datamodule.train_dataset.dset_to_metadata
         self.revin = SamplewiseRevNormalization()
+        self.infer_type = infer_type
 
         self.formatter_dict = {}
         # Initial formatter for each dataset - right now these are all identical
@@ -390,9 +393,7 @@ class Trainer:
                 self.device
             )
         y_preds = []
-        # Synchronize before timing
-        torch.cuda.synchronize()
-        time1 = time.time()
+
         # Rollout the model - Causal in time gets more predictions from the first step
         for i in range(train_rollout_limit - 1, rollout_steps):
             # Don't fill causal_in_time here since that only affects y_ref
@@ -408,7 +409,7 @@ class Trainer:
 
             seed_ = seed + i
 
-            y_pred = model(*normalized_inputs, metadata=metadata, seed=seed_)
+            y_pred = model(*normalized_inputs, metadata=metadata, seed=seed_, infer_type=self.infer_type)
 
             # During validation, don't maintain full inner predictions
             if not train and model.causal_in_time:
@@ -454,9 +455,7 @@ class Trainer:
             else:
                 y_preds.append(y_pred[:, -1:])
         y_pred_out = torch.cat(y_preds, dim=1)
-        # Synchronize after the model's forward pass
-        torch.cuda.synchronize()
-        time2 = time.time()
+
         # Post-processing y_ref depending on train - if train, normalize y_ref before loss calc
         # If not train, we already denormalized the prediction
         if train:

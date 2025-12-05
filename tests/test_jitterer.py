@@ -3,7 +3,9 @@ from dataclasses import dataclass
 
 import torch
 
-from temporary_mppx_name.models.shared_utils.patch_jitterers import PatchJitterer
+from controllable_patching_striding.models.shared_utils.patch_jitterers import (
+    PatchJitterer,
+)
 
 
 @dataclass

@@ -169,32 +169,6 @@ class MixedWellDataset(Dataset):
 
         self.field_to_index_map = self._build_subset_dict()
 
-    def _build_subset_dict_(self):
-        # Maps fields to subsets of variables
-        field_to_index = {}
-        max_index = 0
-        if self.prefetch_field_names:
-            for dataset_name in WELL_DATASETS:
-                try:
-                    temp_dset = WellDataset(
-                        well_base_path=self.well_base_path,
-                        well_dataset_name=dataset_name,
-                        well_split_name=self.well_split_name,
-                        use_normalization=False,  # Don't need normalization to get this data
-                    )
-                except Exception:
-                    logger.warning(f"Failed to load {dataset_name} dataset")
-                    continue
-                metadata = temp_dset.metadata
-                field_names = flatten_field_names(metadata)
-                for field_name in field_names:
-                    # If we're not tying field names, then add dataset name to field name for the key
-                    if not self.tie_fields:
-                        field_name = f"{dataset_name}_{field_name}"
-                    if field_name not in field_to_index:
-                        field_to_index[field_name] = max_index
-                        max_index += 1
-        return field_to_index
     
     def _build_subset_dict(self) -> Dict[str, int]:
         # Maps fields to subsets of variables
@@ -223,12 +197,25 @@ class MixedWellDataset(Dataset):
                         max_index += 1
             # If we added any extras, make sure they're represented as well
             for dataset_name, info in self.well_dataset_info.items():
+                if dataset_name in WELL_DATASETS and self.prefetch_field_names:
+                    continue  # Already processed this dataset in the previous loop
                 dataset_path = info.get("path", None)
                 if dataset_path is not None:
                     temp_dset = WellDataset(
                         path=dataset_path,
                         well_split_name=self.well_split_name,
                         use_normalization=False,
+                    )
+                elif dataset_name in WELL_DATASETS:
+                    temp_dset = self.inner_dataset_type(
+                        well_base_path=self.well_base_path,
+                        well_dataset_name=dataset_name,
+                        well_split_name=self.well_split_name,
+                        use_normalization=False,  # Don't need normalization to get this data
+                    )
+                else:
+                    raise ValueError(
+                        f"Unknown dataset {dataset_name}. Please provide path."
                     )
                 metadata = temp_dset.metadata
                 field_names = flatten_field_names(metadata)

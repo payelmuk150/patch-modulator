@@ -1,10 +1,10 @@
 module_parameters:
   _target_: controllable_patching_striding.data.MixedWellDataModule
-  batch_size: 4
+  batch_size: 2
   data_workers: 1
   n_steps_input: 2
   n_steps_output: 1
-  max_samples: 32
+  max_samples: 2
   well_dataset_info: 
     dummy: 
       include_filters: []

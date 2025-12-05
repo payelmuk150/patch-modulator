@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --time=21:00:00
-#SBATCH -p gpuxl 
+#SBATCH -p gpu 
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gpus-per-node=4
+#SBATCH --gpus-per-node=1
 #SBATCH --cpus-per-gpu=8
 #SBATCH -J CSM-TRL2D
 #SBATCH --output=test_tr2d_release_csm.log
@@ -28,7 +28,7 @@ srun python `which torchrun` \
 	--rdzv_id=$SLURM_JOB_ID \
 		--rdzv_backend=c10d \
 		--rdzv_endpoint=$SLURMD_NODENAME:29500 \
-	controllable_patching_striding/train.py distribution=fsdp server=gpuxl optimizer.lr=0.0001 logger.wandb_project_name="FLEXIBLE_PATCHING_EXPERIMENTS" \
+	controllable_patching_striding/train.py distribution=fsdp server=rusty optimizer.lr=0.0001 logger.wandb_project_name="FLEXIBLE_PATCHING_EXPERIMENTS" \
 			data.module_parameters.batch_size=2 data.module_parameters.max_samples=100 model.hidden_dim=768 model.groups=12 model.processor_blocks=12 model.drop_path=.1 \
 			model/processor/space_mixing=full_spatial_attention model.processor.space_mixing.num_heads=12 model.processor.time_mixing.num_heads=12 \
 			model.causal_in_time=True model.jitter_patches=False \
@@ -43,4 +43,4 @@ srun python `which torchrun` \
 			model.infer="[4,4]"\
 			model.twod_only=True\
             model.threed_only=False\
-			trainer.prediction_type=delta trainer.max_rollout_steps=10 data=TRL_2D trainer.max_epoch=601 data_workers=4 auto_resume=False
+			trainer.prediction_type=delta trainer.max_rollout_steps=10 trainer.infer_type=fixed data=TRL_2D trainer.max_epoch=601 data_workers=4 auto_resume=False

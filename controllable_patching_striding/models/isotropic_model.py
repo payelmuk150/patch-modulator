@@ -1,6 +1,5 @@
 from functools import reduce
 from operator import mul
-import torch.distributed as dist
 
 import numpy as np
 import torch
@@ -8,14 +7,16 @@ import torch.nn as nn
 from einops import rearrange
 
 from controllable_patching_striding.models.shared_utils.flexi_utils import (
+    choose_kernel_size_alternating,
     choose_kernel_size_deterministic,
     choose_kernel_size_random,
-    choose_kernel_size_alternating,
 )
 from controllable_patching_striding.models.shared_utils.mlps import (
     SubsampledLinear,  # Make this use library once lbirary is setup
 )
-from controllable_patching_striding.models.shared_utils.patch_jitterers import PatchJitterer
+from controllable_patching_striding.models.shared_utils.patch_jitterers import (
+    PatchJitterer,
+)
 
 
 def dim_pad(x, max_d):
@@ -179,6 +180,7 @@ class IsotropicModel(nn.Module):
         proj_axes=None,
         return_att=False,
         seed=None,
+        infer_type='fixed',
     ):
         # x - T B C H [W D]
         # state_labels - 1, C
@@ -212,17 +214,15 @@ class IsotropicModel(nn.Module):
             if self.training:
                 ks_random = choose_kernel_size_random(self.embed.kernel_scales_seq, seed=seed)
             else:
-                # We don't need to randomize the kernel size for inference. Only during training. In inference, we use the fixed kernel size.
-                # Except if one wants to use alternating kernel sizes during rollout.
-                ks_random = self.infer
-
-                # If you want to use alternating kernel sizes during rollout, use the following. 
-                # TODO: Add this to the config.
-                #ks_random = choose_kernel_size_alternating(self.embed.kernel_scales_seq, seed=seed)
-
-                # Optionally, if you want to use random kernel sizes during rollout, use the following. 
-                # TODO: Add this to the config.
-                #ks_random = choose_kernel_size_random(self.embed.kernel_scales_seq, seed=seed)
+                # We don't need to randomize the kernel size for inference. Use fixed, random, or alternating.
+                if infer_type == 'fixed':
+                    ks_random = self.infer
+                elif infer_type == 'random':
+                    ks_random = choose_kernel_size_random(self.embed.kernel_scales_seq, seed=seed)
+                elif infer_type == 'alternating':
+                    ks_random = choose_kernel_size_alternating(self.embed.kernel_scales_seq, seed=seed)
+                else:
+                    raise ValueError(f"Invalid infer type: {infer_type}")
             
             for _ in range(self.max_d):
                 ks = ks_random

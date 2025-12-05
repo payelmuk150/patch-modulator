@@ -211,22 +211,18 @@ class DummyCheckPointer(BaseCheckPointer):
             checkpoint_id=checkpoint_path,# or last_checkpoint,  # Use the correct directory path
         )
 
-        """# Check if the weights are loaded
-        loaded_state_dict = app_state.state_dict()["model"]  # Get the loaded state dict
-        current_state_dict = model.state_dict()  # Get the current model state dict
-
-        val1 = loaded_state_dict['space_bag.linear.weight']
-        val2 = current_state_dict['space_bag.linear.weight']
-
-        print("Loaded state dict keys:", loaded_state_dict.keys())
-        print("Current state dict keys:", current_state_dict.keys())
-        if torch.equal(val1, val2):
-            print("Weights match!")
-        else:
-            print("Weights do not match!")"""
-
-
         return epoch, val_loss
+
+    def save_if_necessary(
+        self,
+        model: torch.nn.Module,
+        optimizer: Optional[torch.optim.Optimizer] = None,
+        val_loss: Optional[float] = None,
+        epoch: Optional[int] = None,
+        force: bool = False,
+    ):
+        # Simply do nothing
+        return None
 
 
 class CheckPointer(DummyCheckPointer):

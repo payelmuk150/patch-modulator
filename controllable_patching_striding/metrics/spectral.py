@@ -3,8 +3,8 @@ from typing import Dict, Optional
 import numpy as np
 import torch
 import torch.nn.functional as F
-from the_well.data.datasets import WellMetadata
 from the_well.benchmark.metrics.common import Metric
+from the_well.data.datasets import WellMetadata
 
 
 def fftn(x: torch.Tensor, meta: WellMetadata):

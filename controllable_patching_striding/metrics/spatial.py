@@ -1,6 +1,6 @@
 import torch
-from the_well.data.datasets import WellMetadata
 from the_well.benchmark.metrics.common import Metric
+from the_well.data.datasets import WellMetadata
 
 
 class MSE(Metric):
