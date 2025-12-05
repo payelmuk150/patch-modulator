@@ -1,15 +1,14 @@
 # Controllable Patching for Compute-Adaptive Surrogate Modeling of Partial Differential Equations
 
-This repository contains the reference implementation for **Convolutional Kernel Modulators (CKM)** and **Convolutional Stride Modulators (CSM)**.
+This repository contains the reference implementation for **Convolutional Stride Modulators (CSM)** and **Convolutional Kernel Modulators (CKM)**. The full preprint is available **[here](https://arxiv.org/abs/2507.09264)**, and a workshop version appears in ICLR 2025: Machine Learning for Multiscale Processes **[here](https://openreview.net/forum?id=YM3koX4nHp)**.
 
 <p align="center">
   <img width="524" height="259" alt="CKM-CSM diagram" src="https://github.com/user-attachments/assets/d8174f5c-15c3-4036-bd89-75ac063d7664" />
 </p>
 
-CKM and CSM represent a class of general flexible patching and striding strategies which allow adaptive patching and striding in vision-transformer–based PDE surrogates. Across a range of challenging 2D and 3D PDE benchmarks, CKM and CSM dramatically improve long-term stability in video-like prediction tasks. Their plug-and-play design makes them broadly applicable across architectures—establishing a general foundation for compute-adaptive modeling in PDE surrogate tasks.
+CSM and CKM represent a class of general flexible striding and patching strategies which allow adaptive striding and patching in autoregressive vision-transformer–based PDE surrogates. Across a range of challenging 2D and 3D PDE benchmarks, CSM and CKM dramatically improve long-term stability in video-like prediction tasks. Their plug-and-play design makes them broadly applicable across architectures—establishing a general foundation for compute-adaptive modeling in PDE surrogate tasks.
 
-Its effectiveness is underscored by its use in **[Walrus](https://arxiv.org/abs/2511.15684)**, where CSM serves as the encoder/decoder module of the current state-of-the-art foundation model for continuum dynamics.
-
+Its effectiveness is demonstrated at scale in **[Walrus](https://arxiv.org/abs/2511.15684)**, where CSM forms the encoder/decoder backbone of the current state-of-the-art foundation model for continuum dynamics.
 
 ---
 
@@ -50,9 +49,7 @@ patch-modulator/
 │   ├── utils/                    # Experiment setup + distributed utilities
 │   ├── train.py                  # Main Hydra training entry point
 │   ├── ckm_tr2d_100M_example_script.sh  # Example CKM job script
-│   ├── csm_tr2d_100M_example_script.sh  # Example CSM job script
-├── assets/
-│   └── the_well_logo.png
+│── ├── csm_tr2d_100M_example_script.sh  # Example CSM job script     
 ├── pyproject.toml
 ├── README.md
 └── tests/
