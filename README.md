@@ -1,6 +1,6 @@
-# Controllable Patching for Compute-Adaptive Surrogate Modeling of Partial Differential Equations
+# Overtone: Cyclic Patch Modulation for Cleaner, Faster Physics Emulators
 
-This repository contains the reference implementation for **Convolutional Stride Modulators (CSM)** and **Convolutional Kernel Modulators (CKM)**. The full preprint is available **[here](https://arxiv.org/abs/2507.09264)**, and a workshop version appears in ICLR 2025: Machine Learning for Multiscale Processes **[here](https://openreview.net/forum?id=YM3koX4nHp)**.
+This repository contains the reference implementation for **Convolutional Stride Modulators (CSM)** and **Convolutional Kernel Modulators (CKM)**. This paper is published in ICLR 2026, and is available **[here](https://openreview.net/pdf?id=itUo64aUeK)**. Preprint version is available **[here](https://arxiv.org/abs/2507.09264)**, and a workshop version appears in ICLR 2025: Machine Learning for Multiscale Processes **[here](https://openreview.net/forum?id=YM3koX4nHp)**.
 
 <p align="center">
   <img width="524" height="259" alt="CKM-CSM diagram" src="https://github.com/user-attachments/assets/d8174f5c-15c3-4036-bd89-75ac063d7664" />
@@ -99,16 +99,15 @@ We also acknowledge support from:
 
 ## Citing Controllable Patching
 
-If you use CKM/CSM or this repository, please cite:
+If you use the modules for CKM/CSM or build upon this repository, please cite:
 
 ```bibtex
-@misc{mukhopadhyay2025controllablepatchingcomputeadaptivesurrogate,
-      title={Controllable Patching for Compute-Adaptive Surrogate Modeling of Partial Differential Equations},
-      author={Payel Mukhopadhyay and Michael McCabe and Ruben Ohana and Miles Cranmer},
-      year={2025},
-      eprint={2507.09264},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2507.09264},
+@inproceedings{
+mukhopadhyay2026overtone,
+title={Overtone: Cyclic Patch Modulation for Cleaner, Faster Physics Emulators},
+author={Payel Mukhopadhyay and Michael McCabe and Ruben Ohana and Miles Cranmer},
+booktitle={The Fourteenth International Conference on Learning Representations},
+year={2026},
+url={https://openreview.net/forum?id=itUo64aUeK}
 }
 ```
