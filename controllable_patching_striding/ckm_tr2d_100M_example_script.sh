@@ -6,7 +6,7 @@
 #SBATCH --gpus-per-node=1
 #SBATCH --cpus-per-gpu=8
 #SBATCH -J CSM-TRL2D
-#SBATCH --output=test_tr2d_release_ckm.log
+#SBATCH --output=test_tr2d_release_ckm-%j.log
 
 export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 export HDF5_USE_FILE_LOCKING=FALSE
@@ -32,8 +32,8 @@ srun python `which torchrun` \
 			data.module_parameters.batch_size=2 data.module_parameters.max_samples=100 model.hidden_dim=768 model.groups=12 model.processor_blocks=12 model.drop_path=.1 \
 			model/processor/space_mixing=full_spatial_attention model.processor.space_mixing.num_heads=12 model.processor.time_mixing.num_heads=12 \
 			model.causal_in_time=True model.jitter_patches=False \
-			model/encoder=flexivit_encoder \
-			model/decoder=flexivit_decoder \
+			model/encoder=ckm_encoder \
+			model/decoder=ckm_decoder \
             model.encoder.variable_deterministic_ds=False\
             model.encoder.base_kernel_size2d="[[4,4],[4,4]]"\
             model.encoder.kernel_scales_seq="[[2,2], [4,2], [4,4]]"\

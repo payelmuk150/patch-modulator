@@ -91,6 +91,7 @@ The scripts automatically:
 The authors would like to thank **Geraud Krawezik** and the **Scientific Computing Core** at the Flatiron Institute, a division of the Simons Foundation, for compute support.
 
 We also acknowledge support from:
+- **Cambridge-Infosys AI lab**
 - **Simons Foundation**
 - **Schmidt Sciences, LLC**
 - **Polymathic AI**
