@@ -98,9 +98,9 @@ We also acknowledge support from:
 
 ---
 
-## Citing Controllable Patching
+## Citing Overtone
 
-If you use the modules for CKM/CSM or build upon this repository, please cite:
+If you use the modules for CKM/CSM or build upon the ideas presented in this repository, please consider citing:
 
 ```bibtex
 @inproceedings{
