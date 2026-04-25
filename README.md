@@ -1,6 +1,6 @@
 # Overtone: Cyclic Patch Modulation for Cleaner, Efficient, and Flexible Physics Emulators
 
-This repository contains the reference implementation for **Convolutional Stride Modulators (CSM)** and **Convolutional Kernel Modulators (CKM)**. This paper is published in ICLR 2026, and is available **[here](https://openreview.net/pdf?id=itUo64aUeK)**. Preprint version is available **[here](https://arxiv.org/abs/2507.09264)**, and a workshop version appears in ICLR 2025: Machine Learning for Multiscale Processes **[here](https://openreview.net/forum?id=YM3koX4nHp)**.
+This repository contains the reference implementation for **Convolutional Stride Modulators (CSM)** and **Convolutional Kernel Modulators (CKM)**. This paper is published in ICLR 2026, and is available **[here](https://arxiv.org/abs/2507.09264)**.
 
 <p align="center">
   <img width="524" height="259" alt="CKM-CSM diagram" src="https://github.com/user-attachments/assets/d8174f5c-15c3-4036-bd89-75ac063d7664" />
